@@ -24,7 +24,7 @@ $ go test -bench .
 goos: linux
 goarch: amd64
 pkg: github.com/jiazhoulvke/lucid
-BenchmarkLucidID-2          12711658                91.2 ns/op
+BenchmarkLucID-2        13228341                90.5 ns/op
 PASS
-ok      github.com/jiazhoulvke/lucid    39.734s
+ok      github.com/jiazhoulvke/lucid    30.975s
 ```
