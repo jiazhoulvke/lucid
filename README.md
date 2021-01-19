@@ -8,11 +8,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/jiazhoulvke/intuitiveid"
+	"github.com/jiazhoulvke/lucid"
 )
 
 func main() {
-	g := intuitiveid.NewGenerator(1)
+	g := lucid.NewGenerator(1)
 	fmt.Println(g.ID())
 	//2101201335310000001
 	// 年（2位）,月（2位）,日（2位）,距今日0点秒数（5位）,机器ID（1位），累加数（7位）
@@ -24,7 +24,7 @@ $ go test -bench .
 goos: linux
 goarch: amd64
 pkg: github.com/jiazhoulvke/lucid
-BenchmarkIntuitiveID-2          12711658                91.2 ns/op
+BenchmarkLucidID-2          12711658                91.2 ns/op
 PASS
 ok      github.com/jiazhoulvke/lucid    39.734s
 ```

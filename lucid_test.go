@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestIntuitiveID(t *testing.T) {
+func TestLucID(t *testing.T) {
 	g := NewGenerator(1)
 	m := make(map[int64]uint8)
 	for i := 0; i < 1e8; i++ {
@@ -15,7 +15,7 @@ func TestIntuitiveID(t *testing.T) {
 	}
 }
 
-func BenchmarkIntuitiveID(b *testing.B) {
+func BenchmarkLucID(b *testing.B) {
 	g := NewGenerator(1)
 	for i := 0; i < b.N; i++ {
 		g.ID()
