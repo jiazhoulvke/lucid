@@ -6,9 +6,9 @@ import (
 	"time"
 )
 
-//Generator id generator
-//ID结构(接下来的位都是指10进制的位): 6位年月日(如:210427) + 5位当前时间距离今日0点的秒数(最大为86399) + 1位机器id + 7位累加数
-type Generator struct {
+//GeneratorV2 id generator
+//ID结构(接下来的位都是指10进制的位): 6位年月日(如:210427) + 6位时分秒(如152346) + 1位机器id + 6位累加数
+type GeneratorV2 struct {
 	machineID int64
 	nowFunc   func() time.Time
 	now       int64
@@ -18,20 +18,20 @@ type Generator struct {
 	sync.Mutex
 }
 
-func NewGenerator(machineID int64) *Generator {
+func NewGeneratorV2(machineID int64) *GeneratorV2 {
 	if machineID < 0 || machineID > 9 {
 		panic("machineID is wrong")
 	}
-	return &Generator{
+	return &GeneratorV2{
 		machineID: machineID,
-		maxNum:    1e7 - 1,
+		maxNum:    1e6 - 1,
 		nowFunc: func() time.Time {
 			return time.Now().Local()
 		},
 	}
 }
 
-func (g *Generator) ID() int64 {
+func (g *GeneratorV2) ID() int64 {
 	now := g.nowFunc().Unix()
 	g.Lock()
 	defer g.Unlock()
@@ -52,21 +52,22 @@ func (g *Generator) ID() int64 {
 	return g.leftNum + 1
 }
 
-func (g *Generator) getLeftNum() int64 {
-	return g.dateNumber() + g.secondNumber() + g.machineIDNumber()
+func (g *GeneratorV2) getLeftNum() int64 {
+	return g.dateNumber() + g.timeNumber() + g.machineIDNumber()
 }
 
-func (g *Generator) dateNumber() int64 {
+func (g *GeneratorV2) dateNumber() int64 {
 	dateStr := g.nowFunc().Format("060102")
 	n, _ := strconv.ParseInt(dateStr, 10, 64)
 	return n * 1e13
 }
 
-func (g *Generator) secondNumber() int64 {
-	h, m, s := g.nowFunc().Clock()
-	return (int64(h)*3600 + int64(m)*60 + int64(s)) * 1e8
+func (g *GeneratorV2) timeNumber() int64 {
+	timeStr := g.nowFunc().Format("150405")
+	n, _ := strconv.ParseInt(timeStr, 10, 64)
+	return n * 1e7
 }
 
-func (g *Generator) machineIDNumber() int64 {
-	return g.machineID * (1e7)
+func (g *GeneratorV2) machineIDNumber() int64 {
+	return g.machineID * (1e6)
 }
