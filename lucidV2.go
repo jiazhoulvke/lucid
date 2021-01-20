@@ -53,18 +53,12 @@ func (g *GeneratorV2) ID() int64 {
 }
 
 func (g *GeneratorV2) getLeftNum() int64 {
-	return g.dateNumber() + g.timeNumber() + g.machineIDNumber()
+	return g.datetimeNumber() + g.machineIDNumber()
 }
 
-func (g *GeneratorV2) dateNumber() int64 {
-	dateStr := g.nowFunc().Format("060102")
+func (g *GeneratorV2) datetimeNumber() int64 {
+	dateStr := g.nowFunc().Format("060102150405")
 	n, _ := strconv.ParseInt(dateStr, 10, 64)
-	return n * 1e13
-}
-
-func (g *GeneratorV2) timeNumber() int64 {
-	timeStr := g.nowFunc().Format("150405")
-	n, _ := strconv.ParseInt(timeStr, 10, 64)
 	return n * 1e7
 }
 
