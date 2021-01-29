@@ -7,7 +7,6 @@ import (
 )
 
 //Generator id generator
-//ID结构(接下来的位都是指10进制的位): 6位年月日(如:210427) + 5位当前时间距离今日0点的秒数(最大为86399) + 1位机器id + 7位累加数
 type Generator struct {
 	machineID int64
 	nowFunc   func() time.Time
